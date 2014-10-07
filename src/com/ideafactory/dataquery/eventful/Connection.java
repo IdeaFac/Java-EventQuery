@@ -6,12 +6,11 @@
 
 package com.ideafactory.dataquery.eventful;
 
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Map;
-
-import java.io.UnsupportedEncodingException;
-import java.io.IOException;
-import java.net.URLEncoder;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
@@ -19,7 +18,6 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.util.EntityUtils;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -105,7 +103,7 @@ public class Connection {
    */
   public JSONObject query(String location) throws IOException, JSONException {
     // Android depends on DefaultHttpClient
-    HttpClient httpclient = new DefaultHttpClient();
+	HttpClient httpclient = new DefaultHttpClient();
     HttpGet httpget = new HttpGet(location);
     String ctx = null;
     JSONObject ret = null;
@@ -122,7 +120,8 @@ public class Connection {
     } catch (ClientProtocolException e) {
       throw new IOException(e);
     }
-
+    
     return ret;
   }
+  
 }

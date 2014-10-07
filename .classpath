@@ -4,7 +4,9 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="lib" path="jar/java-json.jar"/>
 	<classpathentry kind="lib" path="jar/httpcore-4.3.2.jar"/>
-	<classpathentry kind="lib" path="jar/commons-cli-1.2.jar"/>
-	<classpathentry kind="lib" path="jar/httpclient-4.3.5.jar"/>
+	<classpathentry kind="lib" path="jar/httpcore-nio-4.3.2.jar"/>
+	<classpathentry kind="lib" path="jar/httpclient-4.2.6.jar"/>
+	<classpathentry kind="lib" path="jar/commons-logging-1.2.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
