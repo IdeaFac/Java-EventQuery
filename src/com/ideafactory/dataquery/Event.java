@@ -14,11 +14,9 @@ import java.text.ParseException;
 
 public class Event {
   protected String eventName;
-  
   protected String eventId;
-
+  protected String venueId;
   protected Date startTime;
-
   protected Date endTime;
 
   /**
@@ -35,10 +33,11 @@ public class Event {
     formatter.setLenient(false);
 
     this.eventName = hint.get("eventName");
+    this.venueId = hint.get("venueId");
     this.eventId = hint.get("eventId");
     try {
-      this.startTime = formatter.parse(hint.get("startTime"));
-      this.endTime = formatter.parse(hint.get("endTime"));
+      this.startTime = hint.get("startTime") != null ? formatter.parse(hint.get("startTime")) : null;
+      this.endTime = hint.get("endTime") != null ? formatter.parse(hint.get("endTime")) : null;
     } catch(ParseException e) {
       throw new IllegalArgumentException(e);
     }
@@ -58,5 +57,9 @@ public class Event {
 
   public Date getEndTime() {
     return this.endTime;
+  }
+  
+  public String getVenueId() {
+	return this.venueId;
   }
 }

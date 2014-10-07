@@ -26,7 +26,8 @@ public class Connection {
   protected static final String[] methods = {
     "performers/search",
     "performers/events/list",
-    "/venues/search"
+    "/venues/search",
+    "events/search"
   };
 
   // Request JSON respond

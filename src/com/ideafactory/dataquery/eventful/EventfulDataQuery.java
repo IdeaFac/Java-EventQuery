@@ -1,7 +1,7 @@
 /**
  * A concrete implementation for Class::DataQuery
  *
- * @author Mond Wan
+ * @author Mond Wan, Tony Ngan
  */
 
 package com.ideafactory.dataquery.eventful;
@@ -17,14 +17,107 @@ import org.json.JSONException;
 import com.ideafactory.dataquery.DataQuery;
 import com.ideafactory.dataquery.Event;
 import com.ideafactory.dataquery.Performer;
+import com.ideafactory.dataquery.Venue;
 import com.ideafactory.dataquery.eventful.Connection;
 
 public class EventfulDataQuery extends DataQuery {
   protected String apiKey = "CfdZBmff5hcGvCxH";
-
+  private Connection conn = new Connection();	//Declare once only
+  
+  /**
+   * Set the api key for authentication
+   *
+   * @param String key
+   */
+  @Override
+  	public void setApiKey(String key){
+	  this.apiKey = key;
+  	}
+  
+  /**
+   * Return a list of Class::Event
+   * http://api.eventful.com/docs/events/search
+   *
+   * @param object Class::Venue
+   * @return List<Event>
+   */
+  @Override
+  	public List<Event> searchEventByVenue(Venue v){
+	  List<Event> ret = new ArrayList<Event>();
+	  String vID = v.getId();
+	  HashMap<String, String> params = this.createDefaultHashMap();
+	  params.put("location", vID);
+	  String url = conn.prepareURL("events/search", params);
+	  try {
+	        JSONObject res = conn.query(url);
+	        JSONObject tmp = res.getJSONObject("events");
+	        JSONArray events = null;
+	        try {
+	            // There is more than one results
+	        	events = tmp.getJSONArray("event");
+	          } catch(JSONException e) {
+	            // There is only one result
+	        	events = new JSONArray();
+	        	events.put(tmp.getJSONObject("event"));
+	          }
+	        
+	        for (int i = 0, numOfEvent = events.length(); i < numOfEvent; ++i) {
+	            JSONObject event = events.getJSONObject(i);
+	            HashMap<String, String> hint = new HashMap<String, String>();
+	            hint.put("eventName", event.getString("title"));
+	            hint.put("eventId", event.getString("id"));
+	            hint.put("venueId", event.getString("venue_id"));
+	            hint.put("startTime", event.get("start_time") == null ? event.getString("start_time") : null);
+	            hint.put("endTime", event.get("stop_time") == null ? event.getString("stop_time") : null);
+	            Event e = new Event(hint);
+	            ret.add(e);
+	          }
+	  } catch (Exception e) {
+	        throw new Error(e);
+	  }
+	  return ret;
+  	}
+  
+  /**
+   * Return a list of Class::Event
+   *
+   * @param object Class::Performer
+   * @return List<Event>
+   */
   @Override
     public List<Event> searchEventByPerformer(Performer p) {
-      return null;
+	  List<Event> ret = new ArrayList<Event>();
+	  String pID = p.getId();
+	  HashMap<String, String> params = this.createDefaultHashMap();
+	  params.put("location", pID);
+	  String url = conn.prepareURL("performers/events/list", params);
+	  try {
+	        JSONObject res = conn.query(url);
+	        JSONObject tmp = res.getJSONObject("events");
+	        JSONArray events = null;
+	        try {
+	            // There is more than one results
+	        	events = tmp.getJSONArray("event");
+	          } catch(JSONException e) {
+	            // There is only one result
+	        	events = new JSONArray();
+	        	events.put(tmp.getJSONObject("event"));
+	          }
+	        
+	        for (int i = 0, numOfEvent = events.length(); i < numOfEvent; ++i) {
+	            JSONObject event = events.getJSONObject(i);
+	            HashMap<String, String> hint = new HashMap<String, String>();
+	            hint.put("eventName", event.getString("title"));
+	            hint.put("eventId", event.getString("id"));
+	            hint.put("startTime", event.get("start_time") == null ? event.getString("start_time") : null);
+	            hint.put("endTime", event.get("stop_time") == null ? event.getString("stop_time") : null);
+	            Event e = new Event(hint);
+	            ret.add(e);
+	          }
+	  } catch (Exception e) {
+	        throw new Error(e);
+	  }
+	  return ret;
     }
 
   /**
@@ -36,7 +129,6 @@ public class EventfulDataQuery extends DataQuery {
   @Override
     public List<Performer> searchPerformerByName(String name) {
       List<Performer> ret = new ArrayList<Performer>();
-      Connection conn = new Connection();
 
       // Constracut an URL for request
       HashMap<String, String> params = this.createDefaultHashMap();
@@ -58,11 +150,8 @@ public class EventfulDataQuery extends DataQuery {
           performers = new JSONArray();
           performers.put(tmp.getJSONObject("performer"));
         }
-
-        int numOfPerformer = performers.length();
-        int i = 0;
-
-        for (i = 0; i < numOfPerformer; i++) {
+        
+        for (int i = 0, numOfPerformer = performers.length(); i < numOfPerformer; ++i) {
           JSONObject performer = performers.getJSONObject(i);
           HashMap<String, String> hint = new HashMap<String, String>();
           hint.put("engName", performer.getString("name"));
@@ -73,7 +162,6 @@ public class EventfulDataQuery extends DataQuery {
       } catch (Exception e) {
         throw new Error(e);
       }
-
       return ret;
     }
 

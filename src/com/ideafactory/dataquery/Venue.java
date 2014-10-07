@@ -6,7 +6,7 @@ package com.ideafactory.dataquery;
 import java.util.HashMap;
 
 /**
- * @author Tony
+ * @author Tony Ngan
  *
  */
 public class Venue {
