@@ -6,10 +6,15 @@
 
 package com.ideafac.eventquery.unittest;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+
 import java.util.HashMap;
+
 import org.json.JSONObject;
+import org.junit.Assert;
 import org.junit.Test;
+
 import com.ideafac.eventquery.eventful.Connection;
 
 public class ConnectionTest {
@@ -22,7 +27,7 @@ public class ConnectionTest {
       params.put("keywords", "jay chou");
 
       String url = c.prepareURL("performers/search", params);
-      assertEquals("http://api.eventful.com/json/performers/search?" +"app_key=CfdZBmff5hcGvCxH&keywords=jay+chou",url);
+      Assert.assertTrue(url.contains("app_key=CfdZBmff5hcGvCxH") && url.contains("keywords=jay+chou"));
     }
 
   @Test(expected=IllegalArgumentException.class)
@@ -72,9 +77,7 @@ public class ConnectionTest {
    */
   protected HashMap<String, String> createDefaultHashMap() {
     HashMap<String, String> ret = new HashMap<String, String>();
-
     ret.put("app_key", "CfdZBmff5hcGvCxH");
-
     return ret;
   }
 }
