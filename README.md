@@ -5,6 +5,11 @@ Java library for fetching event's information. It provides easy methods to do da
 Getting started
 -----
 
+To develope this library using Eclipse:
+
+    File -> Import -> Projects from Git -> Add the repository URL
+    Add required library defined in pom.xml to build path
+
 Import the executable .jar into your project:
 
     import com.ideafac.eventquery.*;
@@ -38,3 +43,7 @@ Build
 To build the project, use maven:
 
     mvn clean install
+    
+To download the dependencies defined in pom.xml, use maven:
+
+    mvn dependency:copy-dependencies -DoutputDirectory=OUTPUT_DIR
