@@ -6,9 +6,9 @@
 
 package com.ideafac.eventquery.unittest;
 
-import org.junit.Test;
-
 import java.util.HashMap;
+
+import org.junit.Test;
 
 import com.ideafac.eventquery.Performer;
 
@@ -17,21 +17,21 @@ import com.ideafac.eventquery.Performer;
  */
 public class PerformerTest {
   @Test
-    public void getInstance() {
-      HashMap<String, String> hint = new HashMap<String, String>();
+  public void getInstance() {
+    final HashMap<String, String> hint = new HashMap<String, String>();
 
-      // Empty hint
-      Performer p = new Performer(hint);
-      org.junit.Assert.assertNull(p.getEngName());
+    // Empty hint
+    Performer p = new Performer(hint);
+    org.junit.Assert.assertNull(p.getEngName());
 
-      hint.put("engName", "Jay Chou");
-      hint.put("nationality", "Taiwan");
-      hint.put("id", "abc123");
+    hint.put("engName", "Jay Chou");
+    hint.put("nationality", "Taiwan");
+    hint.put("id", "abc123");
 
-      // Real test
-      p = new Performer(hint);
-      org.junit.Assert.assertEquals("Jay Chou", p.getEngName());
-      org.junit.Assert.assertEquals("Taiwan", p.getNationality());
-      org.junit.Assert.assertEquals("abc123", p.getId());
-    }
+    // Real test
+    p = new Performer(hint);
+    org.junit.Assert.assertEquals("Jay Chou", p.getEngName());
+    org.junit.Assert.assertEquals("Taiwan", p.getNationality());
+    org.junit.Assert.assertEquals("abc123", p.getId());
+  }
 }

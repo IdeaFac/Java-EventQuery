@@ -24,10 +24,10 @@ import org.json.JSONObject;
 public class Connection {
   // Hard coding a list of supported methods
   protected static final String[] methods = {
-    "performers/search",
-    "performers/events/list",
-    "/venues/search",
-    "events/search"
+      "performers/search",
+      "performers/events/list",
+      "/venues/search",
+      "events/search"
   };
 
   // Request JSON respond
@@ -40,18 +40,18 @@ public class Connection {
    * @param params HashMap<String, String>
    * @return String
    * @throws IllegalArgumentException
-   *   - if invalid method is given
-   *   - if UTF-8 is not a supported encoding on URLEncoder
+   *           - if invalid method is given
+   *           - if UTF-8 is not a supported encoding on URLEncoder
    */
   public String prepareURL(String method, HashMap<String, String> params)
-    throws IllegalArgumentException {
+      throws IllegalArgumentException {
 
     String ret = Connection.baseURL + method + "?";
     boolean first = true;
     boolean illegalMethod = true;
 
     // Validate given method is a supported method
-    for (String s: Connection.methods) {
+    for (final String s : Connection.methods) {
       if (s.equals(method)) {
         illegalMethod = false;
         break;
@@ -59,11 +59,10 @@ public class Connection {
     }
     if (illegalMethod) {
       throw new IllegalArgumentException(
-        String.format("Invalid method |%s|", method)
-      );
+          String.format("Invalid method |%s|", method));
     }
 
-    for (Map.Entry<String, String>entry : params.entrySet()) {
+    for (final Map.Entry<String, String> entry : params.entrySet()) {
       try {
         // Skip null
         if ((entry.getValue() == null) || (entry.getKey() == null)) {
@@ -80,11 +79,11 @@ public class Connection {
         }
 
         ret += String.format(
-          "%s=%s",
-          URLEncoder.encode(entry.getKey(), "UTF-8"),
-          URLEncoder.encode(entry.getValue(), "UTF-8")
-        );
-      } catch(UnsupportedEncodingException e) {
+            "%s=%s",
+            URLEncoder.encode(entry.getKey(), "UTF-8"),
+            URLEncoder.encode(entry.getValue(), "UTF-8")
+            );
+      } catch (final UnsupportedEncodingException e) {
         throw new IllegalArgumentException(e);
       }
     }
@@ -98,31 +97,31 @@ public class Connection {
    * @param location String
    * @return JSONObject
    * @throws IOException
-   *   - if there are errors on http protocol
+   *           - if there are errors on http protocol
    * @throws JSONException
-   *   - if response from eventful is not a JSON format
+   *           - if response from eventful is not a JSON format
    */
   public JSONObject query(String location) throws IOException, JSONException {
     // Android depends on DefaultHttpClient
-	HttpClient httpclient = new DefaultHttpClient();
-    HttpGet httpget = new HttpGet(location);
+    final HttpClient httpclient = new DefaultHttpClient();
+    final HttpGet httpget = new HttpGet(location);
     String ctx = null;
     JSONObject ret = null;
 
     try {
       // Get the http response from the request
-      HttpResponse res = httpclient.execute(httpget);
+      final HttpResponse res = httpclient.execute(httpget);
 
       // Get the response body
       ctx = EntityUtils.toString(res.getEntity());
 
       // Convert the body to a JSON object
       ret = new JSONObject(ctx);
-    } catch (ClientProtocolException e) {
+    } catch (final ClientProtocolException e) {
       throw new IOException(e);
     }
-    
+
     return ret;
   }
-  
+
 }

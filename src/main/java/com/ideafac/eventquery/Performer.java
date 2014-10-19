@@ -1,6 +1,6 @@
 /**
  * A data object for storing information about a performer
- * 
+ *
  * @author Mond Wan
  */
 
@@ -10,18 +10,17 @@ import java.util.HashMap;
 
 public class Performer {
   protected String engName;
-
   protected String nationality;
-  
   protected String id;
 
   // Not sure the datatype for this attribute yet
-  //protected image picture;
+  // protected image picture;
 
   /**
    * Construtor
    *
-   * @param HashMap <String, String>
+   * @param HashMap
+   *          <String, String>e
    * @return Clsas::Performer
    */
   public Performer(HashMap<String, String> hint)

@@ -7,10 +7,10 @@
 
 package com.ideafac.eventquery;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
-import java.text.SimpleDateFormat;
-import java.text.ParseException;
 
 public class Event {
   protected String eventName;
@@ -27,7 +27,7 @@ public class Event {
    * @throw IllegalArgumentException
    */
   public Event(HashMap<String, String> hint) throws IllegalArgumentException {
-    SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+    final SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 
     // Must throw errors if this is not an expected date format
     formatter.setLenient(false);
@@ -36,9 +36,13 @@ public class Event {
     this.venueId = hint.get("venueId");
     this.eventId = hint.get("eventId");
     try {
-      this.startTime = hint.get("startTime") != null ? formatter.parse(hint.get("startTime")) : null;
-      this.endTime = hint.get("endTime") != null ? formatter.parse(hint.get("endTime")) : null;
-    } catch(ParseException e) {
+      this.startTime =
+          hint.get("startTime") != null ? formatter
+              .parse(hint.get("startTime")) : null;
+      this.endTime =
+          hint.get("endTime") != null ? formatter.parse(hint.get("endTime"))
+              : null;
+    } catch (final ParseException e) {
       throw new IllegalArgumentException(e);
     }
   }
@@ -58,8 +62,8 @@ public class Event {
   public Date getEndTime() {
     return this.endTime;
   }
-  
+
   public String getVenueId() {
-	return this.venueId;
+    return this.venueId;
   }
 }
